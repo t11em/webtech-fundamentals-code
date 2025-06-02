@@ -12,6 +12,10 @@
         <h1>Tidy Todo</h1>
     </header>
     <main>
+        <form method="post" action="add">
+            <input type="text" name="todo" placeholder="Add a new todo" />
+            <button type="submit">Add</button>
+        </form>
         <ul class="todo-list">
             {{range .}}
             <li class="todo-item">
