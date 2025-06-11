@@ -1,9 +1,19 @@
 package main
 
 import (
+	"errors"
+	"html/template"
 	"fmt"
 	"log"
 	"net/http"
+)
+
+var (
+	sessionManager *HttpSessionManager
+	accountManager *UserAccountManager
+	templates *template.Template
+
+	ErrMethodNotAllowed = errors.New("method not allowed")
 )
 
 func main() {
