@@ -36,7 +36,7 @@ func (m *HttpSessionManager) StartSession(w http.ResponseWriter) (*HttpSession, 
 	log.Printf("start session: %s", sessionId)
 	session := NewHttpSession(sessionId, 10*time.Minute)
 	m.sessions[sessionId] = session
-	session.setCookie(w)
+	session.SetCookie(w)
 
 	return session, nil
 
@@ -112,7 +112,7 @@ func (m *HttpSessionManager) getSession(sessionId string) (*HttpSession, error) 
 	}
 }
 
-func eunsureSession(w http.ResponseWriter, r *http.Request) (*HttpSession, error) {
+func ensureSession(w http.ResponseWriter, r *http.Request) (*HttpSession, error) {
 	session, err := sessionManager.GetValidSession(r)
 	if err == nil {
 		return session, nil

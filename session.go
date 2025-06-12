@@ -5,11 +5,12 @@ import (
 	"time"
 )
 
-const cookieNameSessionId = "sessionId"
+const CookieNameSessionId = "sessionId"
 
 type HttpSession struct {
 	SessionId   string
 	Expires     time.Time
+	// Post-Redirecr-Getでの遷移先に表示するデータ
 	PageData    any
 	UserAccount *UserAccount
 }
@@ -29,7 +30,7 @@ func (s *HttpSession) ClearPageData() {
 
 func (s HttpSession) SetCookie(w http.ResponseWriter) {
 	cookie := &http.Cookie{
-		Name:     cookieNameSessionId,
+		Name:     CookieNameSessionId,
 		Value:    s.SessionId,
 		Expires:  s.Expires,
 		HttpOnly: true,

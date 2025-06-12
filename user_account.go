@@ -24,7 +24,7 @@ func NewUserAccount(userId string, plainPassword string, expires time.Time) *Use
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(plainPassword), bcrypt.DefaultCost)
 	account := &UserAccount{
 		Id:             userId,
-		HashedPassword: hashedPassword,
+		HashedPassword: string(hashedPassword),
 		Expires:        expires,
 		ToDoList:       make([]string, 1, 10),
 	}

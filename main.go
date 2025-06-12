@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-	"html/template"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 )
@@ -11,7 +11,7 @@ import (
 var (
 	sessionManager *HttpSessionManager
 	accountManager *UserAccountManager
-	templates *template.Template
+	templates      *template.Template
 
 	ErrMethodNotAllowed = errors.New("method not allowed")
 )
@@ -28,4 +28,40 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to start : ", err)
 	}
+}
+
+func handleRoot(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}
+
+func handleNotFount(w http.ResponseWriter, r *http.Request) {
+	http.Error(w, "Not Found", http.StatusNotFound)
+}
+
+func checkMethod(w http.ResponseWriter, r *http.Request, method string) error {
+	if r.Method != method {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return ErrMethodNotAllowed
+	}
+	return nil
+}
+
+func writeInternalServerError(w http.ResponseWriter, err error) {
+	msg := fmt.Sprintf("500 Internal Server Error\n\n%s", err.Error())
+	w.WriteHeader(http.StatusInternalServerError)
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Write([]byte(msg))
+}
+
+func isAuthenticated(w http.ResponseWriter, r *http.Request, session *HttpSession) bool {
+	if session.UserAccount != nil {
+		return true
+	}
+
+	page := LoginPageData{}
+	page.ErrorMessage = "未ログインです"
+	session.PageData = page
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	return false
 }
