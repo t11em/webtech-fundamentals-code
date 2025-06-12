@@ -8,8 +8,8 @@ import (
 const CookieNameSessionId = "sessionId"
 
 type HttpSession struct {
-	SessionId   string
-	Expires     time.Time
+	SessionId string
+	Expires   time.Time
 	// Post-Redirecr-Getでの遷移先に表示するデータ
 	PageData    any
 	UserAccount *UserAccount
