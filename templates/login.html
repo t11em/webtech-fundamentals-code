@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Tidy ToDo</title>
-    <link rel="stylesheet" href="static/login.css" />
+    <link rel="stylesheet" href="../static/login.css" />
 </head>
 
 <body>
@@ -19,11 +19,11 @@
             <h1>Login</h1>
             <div class="form-item">
                 <label>UserId</label>
-                <input type="text" name"userId" placeholder="your UserId" required autofocus/>
+                <input type="text" name="userId" placeholder="your UserId" required autofocus/>
             </div>
             <div class="form-item">
                 <label>Password</label>
-                <input type="password" name"password" placeholder="Password" required/>
+                <input type="password" name="password" placeholder="Password" required/>
             </div>
             {{if ne .ErrorMessage ""}}
             <div class="error-message">{{ .ErrorMessage }}</div>

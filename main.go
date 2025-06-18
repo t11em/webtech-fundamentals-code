@@ -17,9 +17,18 @@ var (
 )
 
 func main() {
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	sessionManager = NewHttpSessionManager()
+	accountManager = NewUserAccountManager()
+	templates = template.Must(template.ParseGlob("templates/*.html"))
+	http.Handle("/static", http.FileServer(http.Dir("static")))
+	http.HandleFunc("/create-user-account", handleCreateUserAccount)
+	http.HandleFunc("/new-user-account", handleNewUserAccount)
+	http.HandleFunc("/login", handleLogin)
+	http.HandleFunc("/logout", handleLogout)
 	http.HandleFunc("/todo", handleTodo)
 	http.HandleFunc("/add", handleAdd)
+	http.HandleFunc("/favicon.ico", handleNotFound)
+	http.HandleFunc("/", handleRoot)
 
 	port := getPortNumber()
 	fmt.Printf("listening port : %d\n", port)
@@ -34,7 +43,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
-func handleNotFount(w http.ResponseWriter, r *http.Request) {
+func handleNotFound(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Not Found", http.StatusNotFound)
 }
 
