@@ -74,7 +74,7 @@ func (m *UserAccountManager) Authenticate(userId string, password string) (*User
 	return account, nil
 }
 
-func MakePassowrd() string {
+func MakePassword() string {
 	password := make([]byte, PasswordLength)
 	for i := 0; i < PasswordLength; i++ {
 		password[i] = PasswordChars[rand.Intn(len(PasswordChars))]

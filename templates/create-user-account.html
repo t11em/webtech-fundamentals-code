@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Tiny Todo</title>
-        <link rel="stylesheet" href="static/login.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <header>
-            <h1> Tiny Todo</h1>
-            <div class="info">
-                <span id ="info-version">User management version</span>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Tiny ToDo</title>
+    <link rel="stylesheet" href="static/login.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <h1>Tiny ToDo</h1>
+        <div class="info">
+            <span id="info-version">User management version</span>
+        </div>
+    </header>
+
+    <main id="login">
+        <form class="form-login" method="post" action="/create-user-account">
+            <h1>New account</h1>
+
+            <div class="form-item">
+                <label>UserId</label>
+                <input type="text" name="userId" placeholder="User ID" required autofocus>
+                <p class="note">ユーザIDには、アルファベット、数字、記号(+, -, _, @)が利用可能です。</p>
             </div>
-        </header>
-        <main id="login">
-            <form class="form-login">
-                アカウントを作成しました<br>
-                アカウントは60分間間有効です<br>
-                <div class="form-item">
-                    <label>UserId</label>
-                    <input type="text" name"userId" value="{{ .UserId }}" readonly/>
-                </div>
-                <div class="form-item">
-                    <label>Password</label>
-                    <input type="text" class"monospace" name"password" value="{{ .Password }}" readonly/>
-                </div>
-                <div class="form-item">
-                    <label>Expires</label>
-                    <input type="text" name="expires" value="{{ .Expires }}" readonly/>
-                </div>
-                <button class="primary" onclick="location.href='/login'">OK</button>
-            </form>
-        </main>
-    </body>
+            {{ if ne .ErrorMessage "" }}
+            <div class="error-message">{{ .ErrorMessage }}</div>
+            {{ end }}
+            <button type="submit">Create</button>
+        </form>
+    </main>
+</body>
+
 </html>

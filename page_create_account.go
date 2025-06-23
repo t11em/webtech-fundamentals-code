@@ -19,7 +19,7 @@ func handleCreateUserAccount(w http.ResponseWriter, r *http.Request) {
 		showCreateUserAccount(w, session)
 		return
 	case http.MethodPost:
-		session, err := ensureSession(w, r)
+		session, err := checkSession(w, r)
 		if err != nil {
 			return
 		}
@@ -37,14 +37,17 @@ func showCreateUserAccount(w http.ResponseWriter, session *HttpSession) {
 	if p, ok := session.PageData.(CreateUserAccountPageData); ok {
 		pageData.ErrorMessage = p.ErrorMessage
 	}
-	templates.ExecuteTemplate(w, "create-user-account.html", pageData)
+	err := templates.ExecuteTemplate(w, "create-user-account.html", pageData)
+	if err != nil {
+		return
+	}
 	session.ClearPageData()
 }
 
 func CreateNewUserAccount(w http.ResponseWriter, r *http.Request, session *HttpSession) {
 	r.ParseForm()
 	userId := r.Form.Get("userId")
-	password := MakePassowrd()
+	password := MakePassword()
 
 	user, err := accountManager.NewUserAccount(userId, password)
 	if err != nil {
@@ -67,6 +70,6 @@ func CreateNewUserAccount(w http.ResponseWriter, r *http.Request, session *HttpS
 		Password: password,
 		Expires:  user.ExpiresText(),
 	}
-	http.Redirect(w, r, "/user-account", http.StatusSeeOther)
+	http.Redirect(w, r, "/new-user-account", http.StatusSeeOther)
 	return
 }

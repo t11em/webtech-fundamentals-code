@@ -19,7 +19,7 @@ var (
 func main() {
 	sessionManager = NewHttpSessionManager()
 	accountManager = NewUserAccountManager()
-	templates = template.Must(template.ParseGlob("templates/*.html"))
+	templates = template.Must(template.ParseGlob("templates/*"))
 	http.Handle("/static", http.FileServer(http.Dir("static")))
 	http.HandleFunc("/create-user-account", handleCreateUserAccount)
 	http.HandleFunc("/new-user-account", handleNewUserAccount)
